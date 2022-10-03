@@ -8,7 +8,7 @@ export default function RecipeCard({ recipes }) {
     const heightImg = thumbnail.fields.file.details.image.height;
     return (
         <div className="card">
-            <Image src={`https:${imageUrl}`} className="featured" width={widthImg} height={heightImg} objectFit={'cover'} />
+            <Image alt='img' src={`https:${imageUrl}`} className="featured" width={widthImg} height={heightImg} objectFit={'cover'} />
             <div className="content">
                 <div className="info">
                     <h4>{title}</h4>
