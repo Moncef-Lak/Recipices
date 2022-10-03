@@ -48,6 +48,7 @@ export default function RecipeDetails({ recipe }) {
           alt='img'
           width={featuredImage.fields.file.details.image.width}
           height={featuredImage.fields.file.details.image.height}
+          objectFit={'cover'}
         />
         <h2>{title}</h2>
       </div>
