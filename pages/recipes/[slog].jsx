@@ -31,7 +31,12 @@ export const getStaticProps = async ({ params }) => {
     content_type: 'recipe',
     'fields.slug': params.slog
   })
-
+  if (!items.length) return {
+    redirect: {
+      destination: '/',
+      permanent: false
+    }
+  }
   return {
     props: { recipe: items[0] },
     revalidate: 1,
@@ -40,7 +45,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export default function RecipeDetails({ recipe }) {
-  if(!recipe) return <Skeleton/>
+  if (!recipe) return <Skeleton />
 
   const { featuredImage, title, cookingTime, ingredients, method } = recipe.fields
   return (
