@@ -8,7 +8,7 @@ export const getStaticProps = async () => {
     accessToken: process.env.CONTENTFUL_ACCESS_KEY,
   });
   const res = await myContentfulAccount.getEntries({ content_type: 'recipe' });
-  return { props: { recipes: res.items } };
+  return { props: { recipes: res.items }, revalidate: 1 };
 }
 
 export default function Recipes({ recipes }) {
