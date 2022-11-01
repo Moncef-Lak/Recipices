@@ -4,6 +4,7 @@ import RecipeCard from "../components/RecipeCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import SwiperCore, { Autoplay } from "swiper";
+import Head from "next/head";
 
 export const getStaticProps = async () => {
   const myContentfulAccount = createClient({
@@ -55,73 +56,77 @@ export default function Recipes({ recipes }) {
   SwiperCore.use([Autoplay]);
 
   return (
-    <div className="recipe-list">
-      <div className="title">
-        <h1>Simple and Tasty Recipes</h1>
-        <div className="text">
-          He collected the plastic trash on a daily basis. It never seemed to
-          end. Even if he cleaned the entire beach, more plastic would cover it
-          effort that would never be done, he continued to pick up the trash
-          each day.
-        </div>
-        <a
-          href="https://www.linkedin.com/in/moncef-lak-198020204"
-          className="link-me"
-        >
-          <img
-            src="https://www.svgrepo.com/show/382108/male-avatar-boy-face-man-user-4.svg"
-            alt=""
-          />
-          By LM Moncef Lakehal
-        </a>
-      </div>
-      <div className="categories">
-        <div className="cover">
-          {categories.map((category, key) => {
-            return (
-              <div
-                onClick={() => setFilterWord(category)}
-                key={key}
-                className={`category ${
-                  filterWord === category && "categoryActive"
-                }`}
-              >
-                {category[0].toUpperCase() + category.replace(category[0], "")}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      {recipeArr && (
-        <div className="all-recipes-box">
-          <Swiper
-            autoplay
-            modules={[Autoplay]}
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-                spaceBetween: 0,
-              },
-              650: {
-                slidesPerView: length <= 5 ? 1 : 2,
-                width: 600,
-              },
-              950: {
-                slidesPerView: length <= 5 ? 1 : 3,
-                width: 900,
-              },
-            }}
+    <>
+      <Head title={"Recipes"} />
+      <div className="recipe-list">
+        <div className="title">
+          <h1>Simple and Tasty Recipes</h1>
+          <div className="text">
+            He collected the plastic trash on a daily basis. It never seemed to
+            end. Even if he cleaned the entire beach, more plastic would cover
+            it effort that would never be done, he continued to pick up the
+            trash each day.
+          </div>
+          <a
+            href="https://www.linkedin.com/in/moncef-lak-198020204"
+            className="link-me"
           >
-            {recipeArr.map((recipe, id) => {
+            <img
+              src="https://www.svgrepo.com/show/382108/male-avatar-boy-face-man-user-4.svg"
+              alt=""
+            />
+            By LM Moncef Lakehal
+          </a>
+        </div>
+        <div className="categories">
+          <div className="cover">
+            {categories.map((category, key) => {
               return (
-                <SwiperSlide key={id}>
-                  <RecipeCard recipes={recipe} />
-                </SwiperSlide>
+                <div
+                  onClick={() => setFilterWord(category)}
+                  key={key}
+                  className={`category ${
+                    filterWord === category && "categoryActive"
+                  }`}
+                >
+                  {category[0].toUpperCase() +
+                    category.replace(category[0], "")}
+                </div>
               );
             })}
-          </Swiper>
+          </div>
         </div>
-      )}
-    </div>
+        {recipeArr && (
+          <div className="all-recipes-box">
+            <Swiper
+              autoplay
+              modules={[Autoplay]}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                  spaceBetween: 0,
+                },
+                650: {
+                  slidesPerView: length <= 5 ? 1 : 2,
+                  width: 600,
+                },
+                950: {
+                  slidesPerView: length <= 5 ? 1 : 3,
+                  width: 900,
+                },
+              }}
+            >
+              {recipeArr.map((recipe, id) => {
+                return (
+                  <SwiperSlide key={id}>
+                    <RecipeCard recipes={recipe} />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

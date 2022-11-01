@@ -5,6 +5,7 @@ import { BsPeople } from "react-icons/bs";
 import { GrRestaurant } from "react-icons/gr";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiRiceCooker, GiCoolSpices, GiChefToque } from "react-icons/gi";
+import Head from "next/head";
 
 export default function RecipeDetails({ recipe }) {
   if (!recipe) return <Skeleton />;
@@ -14,91 +15,94 @@ export default function RecipeDetails({ recipe }) {
   const { thumbnail, title, cookingTime, ingredients, method } = recipe.fields;
 
   return (
-    <div className="recipe-detail">
-      <div className="recipe-detail-head">
-        <img src={"https:" + thumbnail.fields.file.url} alt="img" />
-        <div className="informations">
-          <div className="cover">
-            <div className="recipe-title">{title}</div>
-            <div className="informations-title">Informations</div>
-            <div className="info-box">
-              <div className="title">
-                <div className="sym">
-                  <BsPeople />
-                </div>
-                <b>{randomPesrsonne}</b>
-              </div>
-              <div className="info">Personnes</div>
-            </div>
-            <div className="info-box">
-              <div className="title">
-                <div className="sym">
-                  <GrRestaurant />
-                </div>
-                <b>Facile</b>
-              </div>
-              <div className="info">Difficulty</div>
-            </div>
-            <div className="info-box">
-              <div className="title">
-                <div className="sym">
-                  <IoTimeOutline />
-                </div>
-                <b>{cookingTime}m</b>
-              </div>
-              <div className="info">Preparation</div>
-            </div>
-            <div className="info-box">
-              <div className="title">
-                <div className="sym">
-                  <GiRiceCooker />
-                </div>
-                <b>{cookingTime + 10}m</b>
-              </div>
-              <div className="info">Cooking</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="recipe-detais-body">
-        <div className="Ingredients">
-          <div className="head">
-            <div className="mini-title">Ingredients</div>
-            <div className="sym">
-              <GiCoolSpices />
-            </div>
-          </div>
-          <div className="info">
-            {ingredients.map((ing, key) => (
-              <div className="ingridient-box" key={key}>
-                {ing}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="Ingredients">
-          <div className="head">
-            <div className="mini-title">Preparation</div>
-            <div className="sym">
-              <GiChefToque />
-            </div>
-          </div>
-          <div className="info">
-            {[...documentToReactComponents(method)[0].props.children].map(
-              (text, key) => {
-                return (
-                  <div key={key} className="method-box">
-                    <div className="num">{key + 1}</div>
-                    {text}
+    <>
+      <Head title={title} />
+      <div className="recipe-detail">
+        <div className="recipe-detail-head">
+          <img src={"https:" + thumbnail.fields.file.url} alt="img" />
+          <div className="informations">
+            <div className="cover">
+              <div className="recipe-title">{title}</div>
+              <div className="informations-title">Informations</div>
+              <div className="info-box">
+                <div className="title">
+                  <div className="sym">
+                    <BsPeople />
                   </div>
-                );
-              }
-            )}
+                  <b>{randomPesrsonne}</b>
+                </div>
+                <div className="info">Personnes</div>
+              </div>
+              <div className="info-box">
+                <div className="title">
+                  <div className="sym">
+                    <GrRestaurant />
+                  </div>
+                  <b>Facile</b>
+                </div>
+                <div className="info">Difficulty</div>
+              </div>
+              <div className="info-box">
+                <div className="title">
+                  <div className="sym">
+                    <IoTimeOutline />
+                  </div>
+                  <b>{cookingTime}m</b>
+                </div>
+                <div className="info">Preparation</div>
+              </div>
+              <div className="info-box">
+                <div className="title">
+                  <div className="sym">
+                    <GiRiceCooker />
+                  </div>
+                  <b>{cookingTime + 10}m</b>
+                </div>
+                <div className="info">Cooking</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="recipe-detais-body">
+          <div className="Ingredients">
+            <div className="head">
+              <div className="mini-title">Ingredients</div>
+              <div className="sym">
+                <GiCoolSpices />
+              </div>
+            </div>
+            <div className="info">
+              {ingredients.map((ing, key) => (
+                <div className="ingridient-box" key={key}>
+                  {ing}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="Ingredients">
+            <div className="head">
+              <div className="mini-title">Preparation</div>
+              <div className="sym">
+                <GiChefToque />
+              </div>
+            </div>
+            <div className="info">
+              {[...documentToReactComponents(method)[0].props.children].map(
+                (text, key) => {
+                  return (
+                    <div key={key} className="method-box">
+                      <div className="num">{key + 1}</div>
+                      {text}
+                    </div>
+                  );
+                }
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
