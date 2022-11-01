@@ -1,58 +1,35 @@
-import Image from 'next/image';
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function RecipeCard({ recipes }) {
-    const { title, slug, cookingTime, thumbnail } = recipes.recipe;
-    const imageUrl = thumbnail.fields.file.url;
-    const widthImg = thumbnail.fields.file.details.image.width;
-    const heightImg = thumbnail.fields.file.details.image.height;
-    return (
-        <div className="card">
-            <Image alt='img' src={`https:${imageUrl}`} className="featured" width={widthImg} height={heightImg} objectFit={'cover'} />
-            <div className="content">
-                <div className="info">
-                    <h4>{title}</h4>
-                    <p>Takes approx {cookingTime} mins to make</p>
-                </div>
-                <div className="actions">
-                    <Link href={'/recipes/' + slug}><a>Cook this</a></Link>
-                </div>
-            </div>
-            <style jsx>{`
-        .card {
-          transform: rotateZ(-1deg);
-        }
-        .content {
-          background: #fff;
-          box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-          margin: 0;
-          position: relative;
-          top: -40px;
-          left: -10px;
-        }
-        .info {
-          padding: 16px;
-        }
-        .info h4 {
-          margin: 4px 0;
-          text-transform: uppercase;
-        }
-        .info p {
-          margin: 0;
-          color: #777;
-        }
-        .actions {
-          margin-top: 20px;
-          display: flex;
-          justify-content: flex-end;
-        }
-        .actions a {
-          color: #fff;
-          background: #f01b29;
-          padding: 16px 24px;
-          text-decoration: none;
-        }
-      `}</style>
+  const { title, slug, cookingTime, thumbnail } = recipes.recipe;
+  const imageUrl = thumbnail.fields.file.url;
+  const caloriesNumbers = [120, 150, 60, 110, 90];
+  const PerssoneNumbers = [1, 2, 3];
+  const randomCalorie =
+    caloriesNumbers[Math.floor(Math.random() * caloriesNumbers.length)];
+  const randomPesrsonne =
+    PerssoneNumbers[Math.floor(Math.random() * PerssoneNumbers.length)];
+
+  return (
+    <Link href={"/recipes/" + slug}>
+      <a className="card">
+        <div className="img">
+          <img alt="img" src={`https:${imageUrl}`} />
         </div>
-    )
+        <div className="card-title">{title}</div>
+        <div className="calories">{randomCalorie} calories</div>
+        <hr />
+        <div className="card-details">
+          <div className="time">
+            Time
+            <b>{cookingTime} mins</b>
+          </div>
+          <div className="time porton">
+            Portion
+            <b>{randomPesrsonne} persons</b>
+          </div>
+        </div>
+      </a>
+    </Link>
+  );
 }

@@ -13,7 +13,9 @@
     "contentful": "^9.2.5",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0",
+    "swiper": "^8.4.4"
   },
   "devDependencies": {
     "eslint": "8.24.0",

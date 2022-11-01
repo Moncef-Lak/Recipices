@@ -1,122 +1,143 @@
-import { createClient } from 'contentful'
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import Image from 'next/image'
-import Skeleton from '../../components/Skeleton'
+import { createClient } from "contentful";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import Skeleton from "../../components/Skeleton";
+import { BsPeople } from "react-icons/bs";
+import { GrRestaurant } from "react-icons/gr";
+import { IoTimeOutline } from "react-icons/io5";
+import { GiRiceCooker, GiCoolSpices, GiChefToque } from "react-icons/gi";
+
+export default function RecipeDetails({ recipe }) {
+  if (!recipe) return <Skeleton />;
+  const PerssoneNumbers = [1, 2, 3];
+  const randomPesrsonne =
+    PerssoneNumbers[Math.floor(Math.random() * PerssoneNumbers.length)];
+  const { thumbnail, title, cookingTime, ingredients, method } = recipe.fields;
+
+  return (
+    <div className="recipe-detail">
+      <div className="recipe-detail-head">
+        <img src={"https:" + thumbnail.fields.file.url} alt="img" />
+        <div className="informations">
+          <div className="cover">
+            <div className="recipe-title">{title}</div>
+            <div className="informations-title">Informations</div>
+            <div className="info-box">
+              <div className="title">
+                <div className="sym">
+                  <BsPeople />
+                </div>
+                <b>{randomPesrsonne}</b>
+              </div>
+              <div className="info">Personnes</div>
+            </div>
+            <div className="info-box">
+              <div className="title">
+                <div className="sym">
+                  <GrRestaurant />
+                </div>
+                <b>Facile</b>
+              </div>
+              <div className="info">Difficulty</div>
+            </div>
+            <div className="info-box">
+              <div className="title">
+                <div className="sym">
+                  <IoTimeOutline />
+                </div>
+                <b>{cookingTime}m</b>
+              </div>
+              <div className="info">Preparation</div>
+            </div>
+            <div className="info-box">
+              <div className="title">
+                <div className="sym">
+                  <GiRiceCooker />
+                </div>
+                <b>{cookingTime + 10}m</b>
+              </div>
+              <div className="info">Cooking</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="recipe-detais-body">
+        <div className="Ingredients">
+          <div className="head">
+            <div className="mini-title">Ingredients</div>
+            <div className="sym">
+              <GiCoolSpices />
+            </div>
+          </div>
+          <div className="info">
+            {ingredients.map((ing, key) => (
+              <div className="ingridient-box" key={key}>
+                {ing}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="Ingredients">
+          <div className="head">
+            <div className="mini-title">Preparation</div>
+            <div className="sym">
+              <GiChefToque />
+            </div>
+          </div>
+          <div className="info">
+            {[...documentToReactComponents(method)[0].props.children].map(
+              (text, key) => {
+                return (
+                  <div key={key} className="method-box">
+                    <div className="num">{key + 1}</div>
+                    {text}
+                  </div>
+                );
+              }
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const client = createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
   accessToken: process.env.CONTENTFUL_ACCESS_KEY,
-})
+});
 
 export const getStaticPaths = async () => {
   const res = await client.getEntries({
-    content_type: "recipe"
-  })
+    content_type: "recipe",
+  });
 
-  const paths = res.items.map(item => {
+  const paths = res.items.map((item) => {
     return {
       params: { slog: item.fields.slug },
-
-    }
-  })
+    };
+  });
 
   return {
     paths,
-    fallback: true
-  }
-}
+    fallback: true,
+  };
+};
 
 export const getStaticProps = async ({ params }) => {
   const { items } = await client.getEntries({
-    content_type: 'recipe',
-    'fields.slug': params.slog
-  })
-  if (!items.length) return {
-    redirect: {
-      destination: '/',
-      permanent: false
-    }
-  }
+    content_type: "recipe",
+    "fields.slug": params.slog,
+  });
+  if (!items.length)
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   return {
     props: { recipe: items[0] },
     revalidate: 1,
-  }
-
-}
-
-export default function RecipeDetails({ recipe }) {
-  if (!recipe) return <Skeleton />
-
-  const { featuredImage, title, cookingTime, ingredients, method } = recipe.fields
-  return (
-    <div>
-      <div className="banner">
-        <Image
-          src={'https:' + featuredImage.fields.file.url}
-          alt='img'
-          width={featuredImage.fields.file.details.image.width}
-          height={featuredImage.fields.file.details.image.height}
-          objectFit={'cover'}
-        />
-        <h2>{title}</h2>
-      </div>
-
-      <div className="info">
-        <p>Takes about {cookingTime} mins to cook.</p>
-        <h3>Ingredients:</h3>
-
-        {ingredients.map(ing => (
-          <span className='box' key={ing}>{ing}</span>
-        ))}
-      </div>
-
-      <div className="method">
-        <h3>Method:</h3>
-        <div>{documentToReactComponents(method)}</div>
-      </div>
-
-      <style jsx>{`
-        h2,h3 {
-          text-transform: uppercase;
-        }
-        .banner  {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-        }
-        .banner h2 {
-          margin: 0;
-          background: #fff;          
-          padding: 20px;
-          position: relative;
-          width: max-content;
-          top: -60px;
-          left: -10px;
-          transform: rotateZ(-1deg);
-          box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-        }
-      
-        .info p {
-          margin: 0;
-        }
-        .info span::after {
-          content: ", ";
-        }
-        .info span:last-child::after {
-          content: ".";
-        }
-        .banner .box{
-          margin: 0;
-          background: #fff;          
-          padding: 20px;
-          position: relative;
-          width: max-content;
-          top: -60px;
-          left: -10px;
-          transform: rotateZ(-1deg);
-          box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-        }
-      `}</style>
-    </div>
-  )
-}
+  };
+};
