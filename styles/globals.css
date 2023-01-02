@@ -11,6 +11,7 @@ body {
   font-family: 'Roboto';
   font-size: 1.5em;
   color: #111;
+
 }
 
 a {
@@ -30,6 +31,8 @@ li {
   flex-direction: column;
   background: url(/food-cooking-background-stone-texture-with-sea-salt-pepper-garlic-parsley-light-grey-abstract-food-background-empty-space-text-can-be-used-food-posters-design-menu-top-view_253362-16400.jpg) no-repeat center;
   background-size: cover;
+  overflow: hidden;
+
 }
 
 header {
@@ -38,9 +41,12 @@ header {
   z-index: 5;
 }
 
-header a {
+header .header-logo {
   text-decoration: none;
   color: black;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
   text-transform: uppercase;
   display: inline-block;
   display: flex;
@@ -105,6 +111,7 @@ footer {
   font-family: none;
   width: 50%;
   text-align: center;
+  z-index: 2;
 }
 
 .page-content .recipe-list .text {
@@ -127,11 +134,13 @@ footer {
   color: #F00754;
 }
 
-.page-content .recipe-list .link-me img {
+.page-content .recipe-list .link-me .img {
   width: 3em;
   height: 3em;
   margin-right: 1em;
   border-radius: 100%;
+  position: relative;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -159,6 +168,7 @@ footer {
   height: 350px;
   flex-direction: column;
   background-color: #eeeeee80;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: solid #fff 1px;
   display: flex;
@@ -167,7 +177,8 @@ footer {
 }
 
 .page-content .recipe-list .all-recipes-box .card .img {
-  width: 130%;
+  width: 10rem;
+  height: 10rem;
   overflow: hidden;
   position: relative;
   top: -2em;
@@ -178,6 +189,7 @@ footer {
 }
 
 .page-content .recipe-list .all-recipes-box .card .img img {
+  -o-object-fit: cover;
   object-fit: cover;
   height: 100%;
 
@@ -230,10 +242,13 @@ footer {
   display: flex;
   border-radius: 10px;
   background: linear-gradient(135deg, #3e3e3ec2, #F0075480);
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
   margin: 3em auto 0;
   position: fixed;
   bottom: 1em;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -286,6 +301,7 @@ footer {
   flex-direction: column;
   padding: 4em 2em 2em;
   margin-top: -5em;
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   justify-content: center;
   align-items: center;
@@ -305,11 +321,13 @@ footer {
   width: 100%;
 }
 
-.page-content .recipe-detail .recipe-detail-head img {
+.page-content .recipe-detail .recipe-detail-head .recipe-slug-img {
   width: 15em;
   height: 15em;
   border-radius: 100%;
+  -o-object-fit: cover;
   object-fit: cover;
+  position: relative;
   transform: translateY(9.5em);
   margin-top: -9.5em;
   z-index: 2;
@@ -318,6 +336,7 @@ footer {
 .page-content .recipe-detail .recipe-detail-head .informations {
   border-radius: 30px;
   background: linear-gradient(45deg, #ffffff90, #d9734b50);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   padding: 1em;
   margin: 2em 0;
@@ -330,6 +349,7 @@ footer {
   flex-wrap: wrap;
   background: linear-gradient(135deg, #ffffff90, #d9734b50);
   padding-top: 6.5em;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-radius: 30px;
   justify-content: center;
@@ -494,13 +514,14 @@ footer {
     overflow: hidden;
   }
 
-  .page-content .recipe-detail .recipe-detail-head img {
+  .page-content .recipe-detail .recipe-detail-head .recipe-slug-img {
     position: absolute;
     right: 0;
     top: 2em;
-    width: 18em;
+    width: 18rem;
     margin-right: 0em;
-    height: 18em;
+    height: 18rem;
+    -webkit-filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.2));
     filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.2));
   }
 
@@ -508,6 +529,7 @@ footer {
     width: 100%;
     background: transparent;
     padding: 0;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
     box-shadow: none;
   }
@@ -517,6 +539,7 @@ footer {
     flex-direction: column;
     align-items: flex-start;
     background: transparent;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
 
   }
@@ -538,6 +561,8 @@ footer {
   }
 
   .page-content .recipe-detail .recipe-detail-head .informations .info-box {
+    width: -webkit-max-content;
+    width: -moz-max-content;
     width: max-content;
     align-items: flex-start;
     padding: 1em 1em .5em;
@@ -605,6 +630,8 @@ footer {
   .page-content .recipe-detail .recipe-detais-body .Ingredients .info .ingridient-box,
   .page-content .recipe-detail .recipe-detais-body .Ingredients .info .method-box {
     background-color: transparent;
+    width: -webkit-max-content;
+    width: -moz-max-content;
     width: max-content;
     box-shadow: none;
     margin: .5em 0;
@@ -653,6 +680,7 @@ footer {
     position: relative;
     inset: auto;
     order: 3;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
     margin: -1em 0 2em;
   }
@@ -662,6 +690,7 @@ footer {
     align-items: center;
     justify-content: space-evenly;
     padding-bottom: .35em;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     /* background-color: #3e3e3ec2; */
   }
@@ -704,4 +733,24 @@ footer {
 .swiper-slide {
   display: flex;
   justify-content: center;
+}
+
+.word {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* line-height: 1rem; */
+
+}
+
+.word .letter {
+  margin: 0;
+  display: flex;
+  padding: 0;
+  font-family: var(--moncef-font);
+}
+
+.moving-element {
+  will-change: transform;
+  transform: translateZ(0);
 }

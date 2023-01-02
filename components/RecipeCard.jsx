@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function RecipeCard({ recipes }) {
@@ -12,9 +13,17 @@ export default function RecipeCard({ recipes }) {
 
   return (
     <Link href={"/recipes/" + slug}>
-      <a className="card">
+      <div className="card">
         <div className="img">
-          <img alt="img" src={`https:${imageUrl}`} />
+          <Image
+            fill
+            sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+            style={{ objectFit: "contain" }}
+            alt="img"
+            src={`https:${imageUrl}`}
+          />
         </div>
         <div className="card-title">{title}</div>
         <div className="calories">{randomCalorie} calories</div>
@@ -29,7 +38,7 @@ export default function RecipeCard({ recipes }) {
             <b>{randomPesrsonne} persons</b>
           </div>
         </div>
-      </a>
+      </div>
     </Link>
   );
 }

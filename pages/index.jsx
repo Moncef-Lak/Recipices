@@ -1,10 +1,16 @@
 import { createClient } from "contentful";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RecipeCard from "../components/RecipeCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import SwiperCore, { Autoplay } from "swiper";
 import Head from "next/head";
+import Image from "next/image";
+import { wordsLetters, wordsLettersJsx } from "../components/words_letters";
+import gsap, { Back, Power4, TweenMax } from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import Category from "../components/category";
+import TitleWord from "../components/TitleWord";
+gsap.registerPlugin(ScrollTrigger);
 
 export const getStaticProps = async () => {
   const myContentfulAccount = createClient({
@@ -18,6 +24,10 @@ export const getStaticProps = async () => {
 export default function Recipes({ recipes }) {
   const [categories, setCategories] = useState([]);
   const [filterWord, setFilterWord] = useState("All");
+  let text = useRef(null);
+  let recipiesBigBox = useRef(null);
+  let categoriesElement = useRef(null);
+  let img = useRef(null);
 
   const recipeArr =
     filterWord && filterWord !== "All"
@@ -33,9 +43,9 @@ export default function Recipes({ recipes }) {
           return { recipe: item.fields };
         });
 
-  const paths = recipes.map((recipe) => {
-    return { params: { slug: recipe.fields.slug } };
-  });
+  // const paths = recipes.map((recipe) => {
+  //   return { params: { slug: recipe.fields.slug } };
+  // });
 
   useEffect(() => {
     let myCategories = [];
@@ -53,54 +63,125 @@ export default function Recipes({ recipes }) {
     setlength(recipeArr?.length);
   }, [recipeArr]);
 
-  SwiperCore.use([Autoplay]);
+  useEffect(() => {
+    gsap.fromTo(
+      img,
+      2,
+      {
+        opacity: 0,
+        y: 100,
+      },
+      {
+        opacity: 1,
+        delay: 0.2,
+        y: 0,
+        ease: Power4.easeInOut,
+      }
+    );
+    gsap.fromTo(
+      categoriesElement,
+      2,
+      {
+        opacity: 0,
+        y: 100,
+      },
+      {
+        opacity: 1,
+        delay: 0.4,
+        y: 0,
+        ease: Back.easeInOut,
+      }
+    );
+
+    TweenMax.staggerFromTo(
+      [...text.children],
+      1,
+      {
+        opacity: 0,
+        scale: 2,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        ease: Power4.easeInOut,
+        stagger: {
+          each: 0.02,
+          from: "random",
+        },
+      }
+    );
+    gsap.utils
+      .toArray([...recipiesBigBox?.children[0]?.children[0]?.children])
+      .forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          2,
+          {
+            opacity: 0,
+            skewX: 20,
+            x: 200,
+            rotateY: 180,
+          },
+          {
+            opacity: 1,
+            skewX: 0,
+            x: 0,
+            rotateY: 0,
+            delay: 0.2 * i,
+            ease: Power4.easeInOut,
+            scrollTrigger: {
+              trigger: recipiesBigBox?.children[0]?.children[0],
+              start: "center bottom",
+            },
+          }
+        );
+      });
+
+    return () => ScrollTrigger.update();
+  }, []);
 
   return (
     <>
       <Head title={"Recipes"} />
       <div className="recipe-list">
         <div className="title">
-          <h1>Simple and Tasty Recipes</h1>
-          <div className="text">
-            He collected the plastic trash on a daily basis. It never seemed to
-            end. Even if he cleaned the entire beach, more plastic would cover
-            it effort that would never be done, he continued to pick up the
-            trash each day.
+          <TitleWord />
+          <div className="text" ref={(e) => (text = e)}>
+            {wordsLettersJsx(
+              "He collected the plastic trash on a daily basis. It never seemed to end. Even if he cleaned the entire beach, more plastic would coverit effort that would never be done, he continued to pick up thetrash each day."
+            )}
           </div>
           <a
+            ref={(e) => (img = e)}
             href="https://www.linkedin.com/in/moncef-lak-198020204"
             className="link-me"
           >
-            <img
-              src="https://www.svgrepo.com/show/382108/male-avatar-boy-face-man-user-4.svg"
-              alt=""
-            />
+            <div className="img">
+              <Image
+                src="https://www.svgrepo.com/show/382108/male-avatar-boy-face-man-user-4.svg"
+                alt="img"
+                fill
+                style={{ objectFit: "contain" }}
+              />
+            </div>
             By LM Moncef Lakehal
           </a>
         </div>
-        <div className="categories">
+        <div className="categories" ref={(e) => (categoriesElement = e)}>
           <div className="cover">
-            {categories.map((category, key) => {
-              return (
-                <div
-                  onClick={() => setFilterWord(category)}
-                  key={key}
-                  className={`category ${
-                    filterWord === category && "categoryActive"
-                  }`}
-                >
-                  {category[0].toUpperCase() +
-                    category.replace(category[0], "")}
-                </div>
-              );
-            })}
+            {categories.map((category, key) => (
+              <Category
+                key={key}
+                setFilterWord={setFilterWord}
+                filterWord={filterWord}
+                category={category}
+              />
+            ))}
           </div>
         </div>
         {recipeArr && (
-          <div className="all-recipes-box">
+          <div className="all-recipes-box" ref={(e) => (recipiesBigBox = e)}>
             <Swiper
-              autoplay
-              modules={[Autoplay]}
               breakpoints={{
                 0: {
                   slidesPerView: 1,

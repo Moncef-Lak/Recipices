@@ -6,9 +6,74 @@ import { GrRestaurant } from "react-icons/gr";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiRiceCooker, GiCoolSpices, GiChefToque } from "react-icons/gi";
 import Head from "next/head";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import { wordsLetters, wordsLettersJsx } from "../../components/words_letters";
+import gsap, { Power4, TweenMax } from "gsap";
 
 export default function RecipeDetails({ recipe }) {
+  useEffect(() => {
+    if (recipe) {
+      TweenMax.staggerFromTo(
+        wordsLetters(word),
+        1.5,
+        {
+          opacity: 0,
+          scale: 0,
+          x: 50,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          x: 0,
+          ease: Power4.easeInOut,
+          stagger: {
+            each: 0.1,
+          },
+        }
+      );
+      gsap.fromTo(
+        img,
+        1.2,
+        {
+          scale: 0,
+          rotate: 180,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          rotate: 0,
+          delay: 1,
+          ease: Power4.easeInOut,
+        }
+      );
+    }
+    const [first, ...all] = [...info.children];
+    TweenMax.staggerFromTo(
+      all,
+      2,
+      {
+        opacity: 0,
+        y: 150,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        delay: 1,
+        ease: Power4.easeInOut,
+        stagger: {
+          each: 0.2,
+        },
+      }
+    );
+  }, [recipe]);
+
+  let word = useRef(null);
+  let info = useRef(null);
+  let img = useRef(null);
+  // let text = useRef(null);
   if (!recipe) return <Skeleton />;
+
   const PerssoneNumbers = [1, 2, 3];
   const randomPesrsonne =
     PerssoneNumbers[Math.floor(Math.random() * PerssoneNumbers.length)];
@@ -19,10 +84,23 @@ export default function RecipeDetails({ recipe }) {
       <Head title={title} />
       <div className="recipe-detail">
         <div className="recipe-detail-head">
-          <img src={"https:" + thumbnail.fields.file.url} alt="img" />
+          <div className="recipe-slug-img" ref={(e) => (img = e)}>
+            <Image
+              fill
+              style={{ objectFit: "contain" }}
+              src={"https:" + thumbnail.fields.file.url}
+              alt="img"
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+              priority="true"
+            />
+          </div>
           <div className="informations">
-            <div className="cover">
-              <div className="recipe-title">{title}</div>
+            <div className="cover" ref={(e) => (info = e)}>
+              <div className="recipe-title" ref={(e) => (word = e)}>
+                {wordsLettersJsx(title)}
+              </div>
               <div className="informations-title">Informations</div>
               <div className="info-box">
                 <div className="title">
