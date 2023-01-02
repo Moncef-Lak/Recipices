@@ -99,7 +99,10 @@ export default function RecipeDetails({ recipe }) {
               style={{ objectFit: "contain" }}
               src={"https:" + thumbnail.fields.file.url}
               alt="img"
-              priority="true"
+              sizes="(max-width: 768px) 50vw,
+              (max-width: 1200px) 20vw,
+              10vw"
+              priority={"true"}
             />
           </div>
           <div className="informations">
