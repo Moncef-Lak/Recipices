@@ -19,6 +19,7 @@ export default function RecipeCard({ recipes }) {
             fill
             style={{ objectFit: "contain" }}
             alt="img"
+            sizes="30vw"
             src={`https:${imageUrl}`}
           />
         </div>
