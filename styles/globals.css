@@ -301,8 +301,8 @@ footer {
   flex-direction: column;
   padding: 4em 2em 2em;
   margin-top: -5em;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -336,8 +336,7 @@ footer {
 .page-content .recipe-detail .recipe-detail-head .informations {
   border-radius: 30px;
   background: linear-gradient(45deg, #ffffff90, #d9734b50);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+
   padding: 1em;
   margin: 2em 0;
   box-shadow: 0 10px 10px #33333320;
@@ -349,8 +348,7 @@ footer {
   flex-wrap: wrap;
   background: linear-gradient(135deg, #ffffff90, #d9734b50);
   padding-top: 6.5em;
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+
   border-radius: 30px;
   justify-content: center;
   padding-bottom: 2em;
