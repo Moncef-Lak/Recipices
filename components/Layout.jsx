@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import background from "./../public/food-cooking-background-stone-texture-with-sea-salt-pepper-garlic-parsley-light-grey-abstract-food-background-empty-space-text-can-be-used-food-posters-design-menu-top-view_253362-16400.jpg";
 import { useEffect, useRef } from "react";
+import Head from "next/head";
 
 export default function Layout({ children }) {
   let title = useRef(null);
@@ -24,6 +25,9 @@ export default function Layout({ children }) {
   }, []);
   return (
     <div className="layout">
+      <Head>
+        <link rel="shortcut icon" href="/recipe.ico" />
+      </Head>
       <div className="layout-background">
         <Image
           src={background}
